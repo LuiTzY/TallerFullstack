@@ -19,10 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Models\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Taller.Web\Taller.Web.csproj" />
+    <Folder Include="ViewModels\Employee\" />
   </ItemGroup>
 
 </Project>

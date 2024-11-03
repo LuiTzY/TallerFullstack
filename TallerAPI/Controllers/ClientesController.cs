@@ -9,10 +9,11 @@ using TallerAPI.Models;
 
 namespace TallerAPI.Controllers
 {    
-    [ApiController]
-    [Route("[controller]")]
+    [ApiController] //Definie que esta clase sera un api controller para tener los metodos http disponibles
+    [Route("[controller]")] //Define que la ruta a utilizar es la del controlador por el cual se coloca la anottation
     public class ClientesController : ControllerBase
     {
+
         private readonly TallerBdContext _context;
 
         public ClientesController(TallerBdContext context)

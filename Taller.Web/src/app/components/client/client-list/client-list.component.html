@@ -22,8 +22,8 @@
                         <th>{{client.telefono}}</th>
                         <th>{{client.direccion}}</th>
                         <th> 
-                            <a href="" class="btn btn-primary m-3">Editar</a>
-                             <a href="" class="btn btn-danger">Eliminar</a>
+                            <a routerLink="/client-edit/{{client.clienteId}}/" class="btn btn-primary m-3">Editar</a>
+                             <a (click)="deleteClient(client.clienteId)" class="btn btn-danger">Eliminar</a>
                         </th>
                     </tr>
                 }

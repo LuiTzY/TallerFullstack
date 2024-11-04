@@ -8,16 +8,20 @@ import { ClientAddComponent } from './components/client/client-add/client-add.co
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { ClientListComponent } from './components/client/client-list/client-list.component';
 import { Requestsnterceptor } from '../interceptors/requests';
+import { LoginComponent } from './components/login/login.component';
+import { ClientEditComponent } from './components/client/client-edit/client-edit.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ClientAddComponent,
-    ClientListComponent
+    ClientListComponent,
+    ClientEditComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    AppRoutingModule, //modulo de rutas de nuestros componentes
     FormsModule,
     ReactiveFormsModule
   ],

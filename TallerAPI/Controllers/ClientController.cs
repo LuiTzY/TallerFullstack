@@ -33,7 +33,7 @@ namespace TallerAPI.Controllers
         }
 
         //esperamos que nos pasen un ID para obtener los resultados de ese cliente
-        [HttpGet("{id}")]
+        [HttpGet("clients/{id}")]
         public async Task<ActionResult<IEnumerable<Cliente>>> getClient(int id)
         {
             var client = await _context.Clientes.FindAsync(id); 
@@ -66,47 +66,10 @@ namespace TallerAPI.Controllers
             return CreatedAtAction("getClient", new { id = client.ClienteId }, client);
         }
 
-        [HttpPut("{id}")]
-
-        public async Task<ActionResult<IEnumerable<Cliente>>> updateClient (int id,ClientViewModel data)
-        {
-            var client  = await _context.Clientes.FindAsync(id);
-            
-            if (client == null)
-            {
-                return BadRequest("Debes de proporcionar un id");
-            }
-
-            _context.Entry(client).State = EntityState.Modified;
-
-            //ejecutamos un bloque de try para captura los errores
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            //cacheamos la excepcion de actualizacion del objeto en la bd
-            catch (DbUpdateConcurrencyException)
-            {   
-                //si obtenemos false es que no existe ningun cliente con el ID que se proporciono, por lo cual no se actualizara
-                if (!ClienteExists(id))
-                {
-                    //retornamos el not found
-                    return NotFound();
-                }
-                else
-                {
-                    //Cualquier otro tipo de error lo lanzamos
-                    throw;
-                }
-            }
-
-            //El objeto ya se actualizo por lo cual devolvemos un no content (204)
-            return NoContent();
-
-        }
 
         [HttpDelete("{id}")]
-        private async Task<ActionResult<IEnumerable<Cliente>>> deleteClient(int id) {
+        public async Task<ActionResult<IEnumerable<Cliente>>> deleteClient(int id)
+        {
 
             var client = await _context.Clientes.FindAsync(id);
 
@@ -121,10 +84,53 @@ namespace TallerAPI.Controllers
             //retornamos la respuesta de no content indicando que el elemento se borro correctamente 
             return NoContent();
         }
+        [HttpPut("clients/{id}")]
+        public async Task<IActionResult> updateClient(int id, ClientViewModel data)
+        {
+            var client = await _context.Clientes.FindAsync(id);
+
+            if (client == null)
+            {
+                return NotFound();
+            }
+
+            // Asignamos los valores del `data` al `client`
+            client.Nombre = data.Nombre;
+            client.Telefono = data.Telefono;
+            client.Email = data.Email;
+
+            // Marcamos el cliente como modificado
+            _context.Entry(client).State = EntityState.Modified;
+
+            try
+            {
+                //guardamos
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ClienteExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            // Retornamos un 204
+            return NoContent();
+        }
+
         private bool ClienteExists(int id)
         {
             //verifica si dentro de todos los registrosd de la bd alguno cumple con el id que le pasamos
             return _context.Clientes.Any(e => e.ClienteId == id);
         }
+
+
+        
     }
+
 }

@@ -4,6 +4,8 @@ import { ClientListComponent } from './components/client/client-list/client-list
 import { ClientInfoComponent } from './components/client/client-info/client-info.component';
 import { clientDataResolver } from './resolvers/client-list.resolver';
 import { ClientAddComponent } from './components/client/client-add/client-add.component';
+import { ClientEditComponent } from './components/client/client-edit/client-edit.component';
+import { clientResolver } from './resolvers/client.resolver';
 
 const routes: Routes = [
   {
@@ -18,6 +20,12 @@ const routes: Routes = [
   {
     path:"client-add",
     component: ClientAddComponent
+  },
+
+  {
+    path:"client-edit/:id",
+    component: ClientEditComponent,
+    resolve:{clientResolver}
   }
 ];
 
